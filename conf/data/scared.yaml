@@ -1,0 +1,28 @@
+_target_: ripepp.data.datasets.scared.SCARED
+
+# Path to dataset root (should contain train/, val/, test/ with dataset_* folders)
+root: ${oc.env:DATA_DIR}/SCARED
+
+# Dataset stage
+stage: train
+
+# Distance between frames to form a pair (e.g., pair frame i with frame i+N)
+frame_distance: 60
+
+# If True, return only positive pairs. If False, interleave positive/negative pairs.
+positive_only: True
+
+# Transforms
+transforms:
+  _target_: ripepp.data.data_transforms.Compose
+  transforms:
+    - _target_: ripepp.data.data_transforms.Normalize
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    # Geometric augmentation (mild for videos)
+    - _target_: ripepp.data.data_transforms.RandomAffine
+      degrees: 30  # Reduced from 30 for video
+      translate: [10, 10]
+      scale: 0.1
+    - _target_: ripepp.data.data_transforms.ResizeAndPad
+      target_size_longer_side: 560

@@ -1,0 +1,6 @@
+_target_: ripepp.scheduler.linear_with_plateaus.LinearWithPlateaus
+start_val: 0.0
+end_val: 1.0
+steps_total: ${num_steps}
+rel_length_start_plateau: 0.0
+rel_length_end_plateu: 0.2

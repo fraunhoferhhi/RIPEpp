@@ -1,0 +1,13 @@
+_target_: ripepp.benchmarks.imw_2020.IMW_2020_Benchmark
+_partial_: true
+use_predefined_subset: true
+transforms:
+  _target_: ripepp.data.data_transforms.Compose
+  transforms:
+    - _target_: ripepp.data.data_transforms.Normalize
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - _target_: ripepp.data.data_transforms.DivisibleBy
+      antialias: true
+      edge_divisible_by: 1
+dry_run: false

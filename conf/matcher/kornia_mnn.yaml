@@ -1,0 +1,3 @@
+_target_: kornia.feature.DescriptorMatcher
+match_mode: "mnn"
+th: 0.8

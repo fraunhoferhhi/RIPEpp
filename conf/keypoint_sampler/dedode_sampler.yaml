@@ -1,0 +1,5 @@
+_target_: ripepp.models.sampler.dedode_sampler.DeDoDeSampler
+min_num_keypoints: 4096
+use_nms: True
+increase_coverage: True
+remove_borders: True

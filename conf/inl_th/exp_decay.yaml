@@ -1,0 +1,4 @@
+_target_: ripepp.scheduler.expDecay.ExpDecay
+a: 2.5
+b: 0.0005
+c: 0.5

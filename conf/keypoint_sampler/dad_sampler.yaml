@@ -1,0 +1,9 @@
+_target_: ripepp.models.sampler.dad_sampler.DaDSampler
+num_samples: 2048
+nms_size: 3
+increase_coverage: True
+coverage_size: 51
+coverage_pow: 0.5
+use_nms: True
+remove_borders: True
+sample_topk: True

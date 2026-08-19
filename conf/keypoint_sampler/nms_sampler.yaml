@@ -1,0 +1,5 @@
+_target_: ripepp.models.sampler.nms_sampler.NMSKeypointSampler
+min_num_keypoints: 4096
+softmax_temperature: 10.0
+threshold: 3.188775510204082e-6 # 3.188775510204082e-6 -> approx 1/560^2
+top_k: 2048

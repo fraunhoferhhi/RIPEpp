@@ -1,0 +1,7 @@
+_target_: ripepp.models.sampler.keypoint_sampler.KeypointSampler
+window_size: 8
+threshold: 0.5
+top_k: 2048
+subpixel_sampling: True
+sub_pixel_temp: 0.5
+nms_size: 3

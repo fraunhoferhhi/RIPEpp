@@ -1,0 +1,4 @@
+_target_: ripepp.geometric_matching.matcher.mnn_dot.NearestNeighborMatcher
+ratio_thresh: null
+distance_thresh: null
+mutual_check: true

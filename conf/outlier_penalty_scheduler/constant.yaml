@@ -1,0 +1,2 @@
+_target_: ripepp.scheduler.constant.ConstantScheduler
+value: -0.1

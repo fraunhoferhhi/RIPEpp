@@ -1,0 +1,14 @@
+- name: encoder
+  desc_key: encoder_descs
+  weight: 2.5
+  loss:
+    _target_: ripepp.losses.hardnet_loss.HardNetLoss
+    pos_margin: 0.2
+    neg_margin: 0.2
+- name: decoder
+  desc_key: decoder_descs
+  weight: 2.5
+  loss:
+    _target_: ripepp.losses.hardnet_loss.HardNetLoss
+    pos_margin: 0.2
+    neg_margin: 0.2

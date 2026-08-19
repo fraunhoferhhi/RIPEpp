@@ -1,0 +1,14 @@
+- name: encoder
+  desc_key: encoder_descs
+  weight: 2.5
+  loss:
+    _target_: ripepp.losses.infonce_loss.InfoNCE_Loss
+    tau: 0.05
+    symmetric: false
+- name: decoder
+  desc_key: decoder_descs
+  weight: 2.5
+  loss:
+    _target_: ripepp.losses.infonce_loss.InfoNCE_Loss
+    tau: 0.05
+    symmetric: false

@@ -1,0 +1,98 @@
+defaults:
+  - alpha_scheduler: linear_with_plateaus # linear_with_plateaus , warmup2linear, step_linear
+  - backbones: vgg
+  - beta_scheduler: linear_with_plateaus # linear_with_plateaus , warmup2linear, step_linear
+  - data: megadepth+tokyo
+  - descriptor_blend_scheduler: constant
+  - descriptor_loss: encoder_hard_net
+  - estimator: F_opencv
+  - geometric_matching: single_thread
+  - heatmap_entropy_scheduler: constant # linear_with_plateaus , constant, deactivated
+  - inl_th: constant # constant
+  - inlier_reward_scheduler: constant # reward for matches that are inliers (only used in positive_only training mode)
+  - keypoint_sampler: simple # simple , nms_sampler , dedode_sampler
+  - matcher: kornia_mnn
+  - outlier_penalty_scheduler: constant # penalty for matches that are outliers (only used in positive_only training mode)
+  - reward_kernel: null # huber or null (if not using distance-based rewards)
+  - val: imw2020
+  - _self_
+
+project_name: ???
+name: ???
+dry_run: False
+
+train_mode: positive_only # positive_only , positive_and_negative
+
+hydra:
+  run:
+    dir: output/${project_name}/${name}/${oc.env:SLURM_JOB_ID} 
+output_dir: ${hydra:runtime.output_dir}
+wandb_output_dir: ${oc.env:WANDB_DIR}
+
+accelerator: cuda
+num_gpus: 1
+# precision: "32-true"
+precision: "bf16-mixed" # numerically more stable
+# precision: "16-mixed"
+
+log_interval: 50 # log every N steps/ batches
+wandb_mode: online
+log_gradients: False
+
+num_workers: 8
+batch_size: 6
+save_model_every_n_steps: 5000
+update_interval: 100
+
+transformation_model: fundamental
+
+load_model: False
+
+network:
+  _target_: ripepp.models.ripepp.RIPEPP
+  _partial_: true
+  window_size: 8
+  keypoint_sampler: ${keypoint_sampler}
+  non_linearity_dect:
+    _target_: torch.nn.Identity
+    # _target_: torch.nn.ReLU
+
+lr: 0.001
+final_lr: 1e-6
+fp_penalty: -1e-7 # -1e-7
+kp_penalty: -7e-7 # -7e-7
+kp_penalty_inliers_only: False # if True, only penalize inlier keypoints (not all selected)
+num_grad_accs: 4
+descriptor_dim: 256
+
+use_distance_based_rewards: False
+use_normalized_rewards: False
+
+lr_scheduler:
+  _partial_: true
+  _target_: ripepp.scheduler.linearLR.StepLinearLR
+  # _target_: ripepp.scheduler.step_cosine_annealing_lr.StepCosineAnnealingLR
+  num_steps: ${num_steps}
+
+val_interval: 1000
+val_interval_plot: -1 # set to negative value to deactivate
+val_edge_divisible_by: null
+
+conf_inference: # does not take effect in evaluation, for instance with glue-factory
+  desc_blend_ratio: 1.0
+  # Note: Sampler-specific parameters (top_k, threshold, num_samples, etc.)
+  # are now configured in keypoint_sampler config files
+
+num_steps: 80000
+early_stopping_at_step: -1 # set to -1 to deactivate
+
+# Curriculum learning settings
+curriculum_learning:
+  enabled: False  # Set to True to enable curriculum learning
+  topk_init: 30  # Initial percentage of batch to use (start with easiest 30%)
+  topk_max: 80   # Maximum percentage of batch to use (gradually increase to 80%)
+  topk_increment: 5  # Increase topK by this percentage every N steps
+  increment_every_n_steps: 1000  # Increase topK every N steps
+  global_selection: True  # If True and num_gpus > 1, synchronize rewards across GPUs for global top-K selection
+                          # If False, each GPU independently selects top-K from its local batch
+  reward_history_size: 100  # Number of recent reward samples to keep for computing threshold (helps with small batches)

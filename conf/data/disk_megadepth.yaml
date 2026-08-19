@@ -1,0 +1,21 @@
+_target_: ripepp.data.datasets.disk_megadepth.DISK_Megadepth
+root: ${oc.env:DATA_DIR}/disk-data
+stage: train
+max_scene_size: 10000
+positive_only: True
+transforms:
+  _target_: ripepp.data.data_transforms.Compose
+  transforms:
+    - _target_: ripepp.data.data_transforms.Normalize
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    - _target_: ripepp.data.data_transforms.ResizeAndPad
+      target_size_longer_side: 560 # like DeDoDe
+    # - _target_: ripepp.data.data_transforms.Resize
+    #   output_size: 800 # like DeDoDe
+    #   side: "long"
+    #   antialias: true
+    # - _target_: ripepp.data.data_transforms.CenterCropRespectingOrientation
+    #   # output_size: [512, 384]
+    #   output_size: [448, 224]
+    # - _target_: ripepp.data.data_transforms.RotateToLandscape

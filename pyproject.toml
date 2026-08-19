@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+authors = [{name = "Johannes Künzel", email = "johannes.kuenzel@hhi.fraunhofer.de"}]
+name = "RIPEpp"
+version = "0.1.0"
+description = "RIPE++: keypoint detection and description for image matching"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">= 3.10,<3.14"
+dependencies = [
+    "torch>=2.10.0",
+    "torchvision",
+    "numpy",
+    "wandb>=0.21.1",
+    "lightning>=2.5",
+    "poselib @ git+https://github.com/PoseLib/PoseLib.git@56d158f",
+    "setuptools",
+    "opencv-python-headless",
+    "scikit-learn",
+    "ipykernel",
+    "hydra-core",
+    "torchmetrics",
+    "pyrootutils",
+    "matplotlib",
+    "kornia",
+    "h5py",
+    "tifffile>=2025.5.10",
+]
+
+[tool.hatch.metadata]
+# The poselib dependency is a git direct reference; allowed since we distribute
+# from source/git rather than publishing to PyPI.
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["ripepp"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+ignore = ["E402"]
+select = ["E4","E7","E9","F","B","Q"]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", marker = "sys_platform != 'linux'" },
+  { index = "pytorch-cu128", marker = "sys_platform == 'linux'" },
+]
+torchvision = [
+  { index = "pytorch-cpu", marker = "sys_platform != 'linux'" },
+  { index = "pytorch-cu128", marker = "sys_platform == 'linux'" },
+]
+nvidia-cuda-nvcc-cu12 = [
+  { index = "nvidia-pyindex", marker = "sys_platform == 'linux'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[[tool.uv.index]]
+name = "nvidia-pyindex"
+url = "https://pypi.org/simple" 
+explicit = true

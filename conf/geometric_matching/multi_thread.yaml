@@ -1,0 +1,3 @@
+_target_: ripepp.geometric_matching.concurrent_matching_pipeline.ConcurrentMatchingPipeline
+_partial_: true
+min_num_matches: 8
