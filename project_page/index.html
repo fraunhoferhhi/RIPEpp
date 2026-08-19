@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>RIPE++: Reinforced Keypoint Learning from Positive Pairs Only</title>
+  <meta name="description" content="RIPE++ learns robust keypoint detection, description and matching from positive image pairs only — a correspondence-level geometric reward removes the need for depth, pose, or negative pairs.">
+  <meta name="keywords" content="RIPE++, keypoint detection, keypoint description, local features, reinforcement learning, weakly-supervised, LightGlue, epipolar geometry, structure-from-motion, SLAM, MegaDepth, medical image registration, ECCV 2026">
+
+  <!-- Open Graph / social -->
+  <meta property="og:title" content="RIPE++: Reinforced Keypoint Learning from Positive Pairs Only"/>
+  <meta property="og:description" content="Keypoint detection, description AND matching learned from positive image pairs only — no depth, no pose, no negative pairs."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="static/images/teaser.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="RIPE++: Reinforced Keypoint Learning from Positive Pairs Only">
+  <meta name="twitter:description" content="Keypoint detection, description AND matching learned from positive image pairs only.">
+  <meta name="twitter:image" content="static/images/teaser.png">
+
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="static/css/ripepp.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+
+<body>
+
+<!-- ======================= HERO ======================= -->
+<header class="hero-ripe">
+  <div class="hero-inner">
+    <span class="hero-badge">🌊 LIMIT @ ECCV 2026 · Malmö, Sweden 🌊</span>
+
+    <h1 class="hero-title">RIPE<span class="plus">++</span></h1>
+    <p class="hero-sub">Reinforced Keypoint Learning from Positive Pairs Only</p>
+
+    <div class="hero-authors">
+      <a href="https://scholar.google.com/citations?user=ybMR38kAAAAJ" target="_blank" rel="noopener">Johannes Künzel</a><sup>1,2</sup>&nbsp;&nbsp;·&nbsp;&nbsp;
+      <a href="https://scholar.google.com/citations?user=BCElyCkAAAAJ" target="_blank" rel="noopener">Peter Eisert</a><sup>1,2</sup>&nbsp;&nbsp;·&nbsp;&nbsp;
+      <a href="https://scholar.google.com/citations?user=5yTuyGIAAAAJ" target="_blank" rel="noopener">Anna Hilsmann</a><sup>1</sup>
+    </div>
+    <div class="hero-aff">
+      <span><sup>1</sup> Fraunhofer Heinrich-Hertz-Institute (HHI)</span>&nbsp;&nbsp;&nbsp;
+      <span><sup>2</sup> Humboldt University Berlin</span>
+    </div>
+
+    <div class="btn-row">
+      <a class="btn btn-dark is-disabled" title="Coming soon">
+        <span class="icon"><i class="fas fa-file-pdf"></i></span>
+        <span>arXiv</span><span class="btn-tag">SOON</span>
+      </a>
+      <a class="btn btn-primary" href="https://github.com/fraunhoferhhi/RIPEpp" target="_blank" rel="noopener">
+        <span class="icon"><i class="fab fa-github"></i></span>
+        <span>Code &amp; Data</span>
+      </a>
+      <a class="btn btn-hf" href="https://huggingface.co/spaces/RIPE/RIPE" target="_blank" rel="noopener">
+        <span class="icon">🤗</span>
+        <span>Live Demo</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ======================= TEASER ======================= -->
+<div class="wrap">
+  <figure class="teaser-card">
+    <img src="static/images/teaser.png" alt="RIPE++ teaser: two-panel comparison showing the new positive-pairs-only reward and the weakly-supervised LightGlue matcher, each improving AUC@5 on MegaDepth.">
+    <figcaption class="figcap">
+      A single geometric reward, formulated at the level of individual correspondences, powers both stages:
+      a <b>positive-pairs-only detector</b> (+3.11 AUC@5) and a <b>weakly-supervised matcher</b> (+3.07 AUC@5).
+    </figcaption>
+  </figure>
+</div>
+
+<!-- ======================= TL;DR + STATS ======================= -->
+<section class="section-pad">
+  <div class="wrap">
+    <p class="tldr">
+      RIPE++ shows that keypoint detection, description <span class="hl">and matching</span> can be learned
+      from <span class="hl">positive image pairs only</span> — no depth, no camera pose, and no negative pairs.
+    </p>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="num">0</div>
+        <div class="lbl">Negative pairs needed</div>
+        <div class="desc">A correspondence-level reward supplies its own contrast, so training needs only positive pairs.</div>
+      </div>
+      <div class="stat">
+        <div class="num">+3.11</div>
+        <div class="lbl">AUC@5° from the new reward</div>
+        <div class="desc">Moving from 53.47 to 56.58 on MegaDepth1500 with positive pairs only.</div>
+      </div>
+      <div class="stat">
+        <div class="num">+3.07</div>
+        <div class="lbl">AUC@5° from the matcher</div>
+        <div class="desc">Weakly-supervised LightGlue lifts MegaDepth1500 from 56.58 → 59.65, with no pose or depth labels.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= ABSTRACT ======================= -->
+<section class="section-pad bg-soft">
+  <div class="wrap">
+    <div style="text-align:center">
+      <span class="eyebrow">Abstract</span>
+      <h2 class="sec-title center">Learning strong features under minimal supervision</h2>
+    </div>
+    <div class="abstract-body">
+      <p>Sparse keypoint extraction and matching underpin core tasks in geometric computer vision, including
+        structure-from-motion, visual SLAM, augmented reality, and medical image registration. Learning robust
+        local feature representations, however, typically requires accurate camera poses or depth supervision,
+        which are often unavailable in real-world settings. Reinforcement learning (RL) has recently emerged as
+        a promising alternative, requiring only the information if two images show the same scene or not.
+        However, existing RL formulations such as RIPE rely on coarse binary rewards and carefully constructed
+        negative training pairs, limiting training stability and descriptor discriminability.</p>
+      <p>In this paper, we revisit RL-based keypoint learning and propose a reward that fully exploits the
+        geometric consistency signal, deriving both reward and penalty from a single positive pair without
+        contrasting against negatives. This richer signal provides sufficient supervisory contrast to learn
+        discriminative detectors and descriptors from positive image pairs alone, enabling representation
+        learning under extremely limited supervision. Furthermore, we show that the same RL objective can be
+        extended to the matching stage by adapting LightGlue, raising AUC@5 on MegaDepth1500 from 56.58 to 59.65
+        and enabling weakly-supervised training of the full sparse matching pipeline from image pairs with
+        partial visual overlap.</p>
+      <p>We validate our approach on established benchmarks, demonstrating competitive results compared to
+        fully-supervised methods. We further show that the method can be even trained on low-texture medical
+        video sequences, where camera poses are usually unavailable and standard SfM pipelines often fail.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CONTRIBUTIONS ======================= -->
+<section class="section-pad">
+  <div class="wrap">
+    <div style="text-align:center">
+      <span class="eyebrow">Contributions</span>
+      <h2 class="sec-title center">What's new in RIPE++</h2>
+    </div>
+    <div class="contrib-grid">
+      <div class="contrib">
+        <div class="n">1</div>
+        <p>A <strong>geometric reward that scores inliers <em>and</em> outliers</strong>, giving a richer and
+          more stable training signal than RIPE's binary reward for RL-based keypoint learning.</p>
+      </div>
+      <div class="contrib">
+        <div class="n">2</div>
+        <p>This reward <strong>removes the need for negative training pairs</strong>, simplifying both the
+          training pipeline and dataset curation.</p>
+      </div>
+      <div class="contrib">
+        <div class="n">3</div>
+        <p>It enables training from data as simple as <strong>raw video streams</strong>, as we demonstrate on
+          medical image data where poses are unavailable.</p>
+      </div>
+      <div class="contrib">
+        <div class="n">4</div>
+        <p>We extend the same reward to a <strong>transformer-based matcher (LightGlue)</strong>, improving
+          AUC@5 on MegaDepth1500 from 56.58 to 59.65 — removing the last dependence on fully-supervised matching.</p>
+      </div>
+      <div class="contrib" style="grid-column: 1 / -1;">
+        <div class="n">5</div>
+        <p>We <strong>validate on standard benchmarks</strong> (MegaDepth1500, HPatches, SCARED1500, Aachen
+          Day-Night v2), performing favorably against fully-supervised training methods.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= HOW IT WORKS ======================= -->
+<section class="section-pad bg-soft">
+  <div class="wrap">
+    <div style="text-align:center; margin-bottom: 48px;">
+      <span class="eyebrow">How it works</span>
+      <h2 class="sec-title center">One reward, from detector to matcher</h2>
+      <p class="sec-lead center">The heart of RIPE++ is <em>where</em> the geometric consistency signal is
+        applied. Moving it from the image-pair level to the correspondence level is what makes negative pairs
+        unnecessary and unlocks weakly-supervised matching.</p>
+    </div>
+
+    <!-- Block 1: reward reformulation (the key idea) -->
+    <div class="method-block">
+      <div class="m-text">
+        <span class="step-tag">The key idea</span>
+        <h3>Reward inliers, penalize outliers</h3>
+        <p>RIPE assigned a single reward per image pair — counting geometrically consistent matches, and
+          <b>inverting</b> the sign for hand-picked negative pairs.</p>
+        <p>RIPE++ instead defines the reward <b>per correspondence within positive pairs only</b>: RANSAC
+          inliers are rewarded, outliers are explicitly penalized. This finer signal supplies its own contrast
+          — so the network no longer needs negative examples to learn what <em>not</em> to match.</p>
+      </div>
+      <div class="m-fig">
+        <img src="static/images/reward_matrices.png" alt="Reward matrix comparison. Left: RIPE assigns rewards at the image-pair level, rewarding inliers for positive pairs and penalizing them for negative pairs. Right: RIPE++ assigns rewards at the correspondence level within positive pairs only — rewarding inliers (green) and penalizing outliers (red).">
+      </div>
+    </div>
+
+    <!-- Block 2: detector framework -->
+    <div class="method-block flip">
+      <div class="m-text">
+        <span class="step-tag">Detector &amp; descriptor</span>
+        <h3>Keypoints sampled from a learned heatmap</h3>
+        <p>A network predicts a heatmap for each image; keypoints are sampled per cell as a categorical policy,
+          and descriptors are read out as <b>hypercolumn features</b> from the encoder. Mutual-nearest-neighbor
+          matches are filtered by a robust fundamental-matrix estimate to build the reward matrix.</p>
+        <p>Gradients follow from <b>REINFORCE</b>, weighting the log-probabilities of selected keypoints by their
+          reward. A new <b>entropy regularizer</b> sharpens each cell's distribution toward a one-hot peak,
+          improving localization — especially at low resolution.</p>
+      </div>
+      <div class="m-fig">
+        <img src="static/images/schema_ripe.png" alt="Schematic of the RIPE++ weakly-supervised keypoint extraction framework: two images pass through a network producing heatmaps and hypercolumn descriptors; keypoints are matched, filtered by RANSAC, and used to build the reward matrix that weights log-probabilities via REINFORCE.">
+      </div>
+    </div>
+
+    <!-- Block 3: matcher -->
+    <div class="method-block">
+      <div class="m-text">
+        <span class="step-tag">Weakly-supervised matcher</span>
+        <h3>The same reward trains LightGlue</h3>
+        <p>Learned matchers such as LightGlue usually need ground-truth correspondences from pose or depth.
+          RIPE++ reformulates matching as a <b>policy-gradient</b> problem (inspired by DISK): matches deemed
+          geometrically consistent by RANSAC receive a reward, outliers a penalty.</p>
+        <p>This trains the full sparse-matching pipeline <b>end-to-end from image pairs alone</b>, lifting AUC@5
+          on MegaDepth1500 by <b>+3.07</b> and removing the last piece of strong supervision.</p>
+      </div>
+      <div class="m-fig">
+        <img src="static/images/schema_lightglue.png" alt="Schematic of weakly-supervised LightGlue training: keypoints and descriptors from two images pass through self- and cross-attention layers to produce match probabilities; RANSAC labels matches as inliers or outliers, providing the reward that trains the matcher without pose or depth.">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= RESULTS ======================= -->
+<section class="section-pad">
+  <div class="wrap">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <span class="eyebrow">Results</span>
+      <h2 class="sec-title center">Qualitative matches</h2>
+      <p class="sec-lead center">Raw correspondences produced by RIPE++ across outdoor, matcher-refined, and
+        medical settings.</p>
+    </div>
+
+    <div id="results-carousel" class="carousel results-carousel">
+      <div class="item">
+        <div class="result-slide">
+          <img src="static/images/qual_megadepth.png" alt="RIPE++ raw matches on a MegaDepth1500 image pair of St. Peter's Basilica.">
+          <p class="cap"><b>RIPE++</b> · MegaDepth1500 — detector &amp; descriptor trained from positive pairs only.</p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="result-slide">
+          <img src="static/images/qual_lightglue.png" alt="RIPE++ paired with the weakly-supervised LightGlue matcher on a MegaDepth1500 image pair.">
+          <p class="cap"><b>RIPE++ &amp; weakly-supervised LightGlue</b> · MegaDepth1500 — full pipeline, image pairs only.</p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="result-slide">
+          <img src="static/images/qual_medical.png" alt="RIPE++ Medical raw matches on a SCARED1500 endoscopic image pair.">
+          <p class="cap"><b>RIPE++ Medical</b> · SCARED1500 — trained directly on low-texture surgical video.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= BIBTEX ======================= -->
+<section class="section-pad bg-soft">
+  <div class="wrap">
+    <div style="text-align:center">
+      <span class="eyebrow">Cite</span>
+      <h2 class="sec-title center">BibTeX</h2>
+    </div>
+    <div class="bibtex-wrap">
+      <button class="copy-btn" id="copy-bib">Copy</button>
+      <pre><code id="bib-code">@article{kuenzel2026ripepp,
+  title   = {RIPE++: Reinforced Keypoint Learning from Positive Pairs Only},
+  author  = {K\"unzel, Johannes and Eisert, Peter and Hilsmann, Anna},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</code></pre>
+      <p class="note-inline">The arXiv identifier and final citation will be added once the preprint is public.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FOOTER ======================= -->
+<footer class="site-footer">
+  <div class="row1">
+    RIPE++ · Fraunhofer Heinrich-Hertz-Institute (HHI) &amp; Humboldt University Berlin
+  </div>
+  <div>
+    Built on the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>,
+    adapted from <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a>.
+    This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.
+  </div>
+</footer>
+
+<script>
+  // BibTeX copy button
+  document.addEventListener('DOMContentLoaded', function () {
+    var btn = document.getElementById('copy-bib');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var text = document.getElementById('bib-code').innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = 'Copied!';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
