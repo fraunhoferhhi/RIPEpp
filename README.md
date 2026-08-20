@@ -11,8 +11,8 @@ Positive Pairs Only <br><br>🌊 LIMIT@ECCV 2026 in Malmö, Sweden 🌊</h1>
   </p>
   <h2 align="center"><p>
     <a href="???" align="center">Arxiv</a> | 
-    <a href="???" align="center">Project Page</a> |
-    <a href="???" align="center">🤗Demo🤗</a>
+    <a href="https://fraunhoferhhi.github.io/RIPEpp/" align="center">Project Page</a> |
+    <a href="https://huggingface.co/spaces/JohannesK14/RIPE" align="center">🤗Demo🤗</a>
   </p></h2>  
   <div align="center"></div>
 </p>
