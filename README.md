@@ -10,7 +10,7 @@ Positive Pairs Only <br><br>🌊 LIMIT@ECCV 2026 in Malmö, Sweden 🌊</h1>
     <a href="https://scholar.google.com/citations?user=5yTuyGIAAAAJ">Anna Hilsmann</a>
   </p>
   <h2 align="center"><p>
-    <a href="???" align="center">Arxiv</a> | 
+    <a href="http://arxiv.org/abs/2608.19693" align="center">Arxiv</a> | 
     <a href="https://fraunhoferhhi.github.io/RIPEpp/" align="center">Project Page</a> |
     <a href="https://huggingface.co/spaces/JohannesK14/RIPE" align="center">🤗Demo🤗</a>
   </p></h2>  
@@ -202,4 +202,14 @@ Our project webpage is based on the [Acadamic Project Page Template](https://git
 
 ## BibTex Citation
 
-TBD
+```
+@misc{künzel2026ripe,
+      title={RIPE++: Reinforced Keypoint Learning from Positive Pairs Only}, 
+      author={Johannes Künzel and Peter Eisert and Anna Hilsmann},
+      year={2026},
+      eprint={2608.19693},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2608.19693}, 
+}
+```
